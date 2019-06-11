@@ -5,8 +5,8 @@ from sklearn.linear_model import LinearRegression
 data = pd.read_csv("/home/admin1/Desktop/PythonVM/LinearRegProblem/bike_sharing.csv")
 #print(data)
 
-data_count = data["temp"].values
-data_humidity = data["cnt"].values
+data_humidity  = data["temp"].values
+data_count= data["cnt"].values
 
 plt.scatter(data_count, data_humidity, color='r')
 
