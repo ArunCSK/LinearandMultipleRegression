@@ -11,8 +11,9 @@ y = data.iloc[:, 2].values
 reg = RandomForestRegressor(n_estimators=100, random_state=0)
 reg.fit(X,y)
 
-y_pred = reg.predict(np.array([6.5]).reshape(-1,1))
-print(y_pred)
+
+#y_pred = reg.predict(np.array([6.5]).reshape(-1,1))
+#print(y_pred)
 X_grid = np.arange(min(X), max(X),  0.1)
 X_grid = X_grid.reshape(len(X_grid), 1)
 plt.scatter(X,y, color='r')
