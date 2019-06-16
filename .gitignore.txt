@@ -1,0 +1,9 @@
+.vscode/
+RandomForestRegression.pkl
+Salary_Data.csv
+env/
+notinstalled.txt
+package.txt
+salary.py
+test_data.csv
+training_data.csv
