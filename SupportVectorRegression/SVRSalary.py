@@ -6,6 +6,7 @@ from sklearn.svm import SVR
 import pickle
 
 data = pd.read_csv('Position_Salaries.csv')
+#data = pd.read_csv('D:\Arundev\py\LinearRegression\SupportVectorRegression\Position_Salaries.csv')
 X = data.iloc[:, 1:2].values
 y = data.iloc[:, 2].values
 length_old = len(data.columns)
@@ -33,7 +34,7 @@ plt.show()
 
 
 # Importing dataset
-dataSet = pd.read_csv('Position_Salaries.csv')
+#dataSet = pd.read_csv('D:\Arundev\py\LinearRegression\SupportVectorRegression\Position_Salaries.csv')
 length_old = len(dataSet.columns)
 
 # Handling categorical data
