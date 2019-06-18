@@ -17,7 +17,7 @@ sc_y = StandardScaler()
 X = sc_X.fit_transform(X.reshape(-1,1))
 y = sc_y.fit_transform(y.reshape(-1,1))
 
-reg = SVR(kernel='rbf')
+reg = SVR()
 reg.fit(X,y)
 
 
@@ -35,6 +35,7 @@ plt.show()
 
 # Importing dataset
 #dataSet = pd.read_csv('D:\Arundev\py\LinearRegression\SupportVectorRegression\Position_Salaries.csv')
+dataSet = pd.read_csv('Position_Salaries.csv')
 length_old = len(dataSet.columns)
 
 # Handling categorical data
