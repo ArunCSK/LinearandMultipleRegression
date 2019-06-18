@@ -16,7 +16,7 @@ y = dataset.iloc[:,4].values
 #print(X, y)
 
 #Split Data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25 , random_state = 0 )0
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25 , random_state = 0 )
 #print(X_test)
 #feature scaling
 sc_X = StandardScaler()
