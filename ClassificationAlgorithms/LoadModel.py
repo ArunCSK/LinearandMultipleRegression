@@ -3,6 +3,7 @@ import pickle
 from sklearn.preprocessing import StandardScaler
 
 file_name = "LogisticRegression.pkl"
+#file_name = "RandomForestClassification.pkl"
 pkl_file = open(file_name, 'rb')
 model_pkl = pickle.load(pkl_file)
 
