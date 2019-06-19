@@ -13,23 +13,23 @@ import pickle
 dataset = pd.read_csv("Social_Network_Ads.csv")
 X = dataset.iloc[:, [2,3]].values
 y = dataset.iloc[:,4].values
-#print(X, y)
+
+print(X)
 
 #Split Data
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25 , random_state = 0 )
 #print(X_test)
 #feature scaling
 sc_X = StandardScaler()
-
 X_train = sc_X.fit_transform(X_train)
-X_test = sc_X.fit_transform(X_test)
+X_test = sc_X.transform(X_test)
 #print(X_test)
 #prediction
 classifier = LogisticRegression()
 classifier.fit(X_train, y_train)
 
 y_pred = classifier.predict(X_test)
-print(y_pred)
+#print(y_pred)
 #confusion metrices
 cm = confusion_matrix(y_test, y_pred)
 
@@ -44,7 +44,6 @@ X_set, y_set = X_train, y_train
 #plt.scatter(x1[:, 0], x1[:, 1], c = 'r' , label='Will not buy')
 
 
-#kuch samja nahi
 #print("x0:",x0.shape)
 #X1,X2=np.meshgrid(np.arange(start=X_set[:,0].min() -1,stop=X_set[:,0].max() +1,step=0.01),
 #np.arange(start=X_set[:,1].min()-1,stop=X_set[:,1].max() +1 ,step=0.01))
