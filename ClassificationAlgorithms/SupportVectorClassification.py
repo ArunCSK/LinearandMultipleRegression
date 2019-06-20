@@ -22,7 +22,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25 , ran
 sc_X = StandardScaler()
 
 X_train = sc_X.fit_transform(X_train)
-X_test = sc_X.fit_transform(X_test)
+X_test = sc_X.transform(X_test)
 #print(X_test)
 #prediction
 classifier = SVC(kernel='linear', random_state=0)
