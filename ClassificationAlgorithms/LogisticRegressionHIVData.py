@@ -45,15 +45,35 @@ x = pd.DataFrame(Data_746.Octomer.str.split("").tolist())
 #x = x.reset_index([0,'result'])
 #print(x.iloc[:, 1:8])
 
-X = x.iloc[:, 1:8]
-#print(df)
+X = x.iloc[:, 1:9 ]
+#print(X)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2 , random_state = 0 )
-#train['day'] = train['day'].astype('category')
+#print(X_train)
+
+#onehotencoding
+# labelencoder_X = LabelEncoder()
+# X_train = labelencoder_X.fit_transform(X_train)
+# onehotencoder = OneHotEncoder(categorical_features=[1,2,3,4,5,6,7,8])
+# X = onehotencoder.fit_transform(X_train).toarray()
+
+#Replace maping
+#replace = {'char' : {'A':1, 'B': 2 , 'C':3, 'D': 4 , 'E': 5 , 'F': 6, 'G': 7 , 'H': 8 , 'I':9, 'J':10 , 'K':11, 'J':12, 'L':13,'M':14,'N':15,'P':16, 'Q':17, 'R':18, 'S':19, 'T':20, 'V':21, 'W':22, 'Y':23}}
+replace = {'char' : {'A':1, 'C':2, 'D': 3 , 'E': 4 , 'F': 5, 'G': 6 , 'H': 7 , 'I':8, 'K':9, 'L':10,'M':11,'N':12,'P':13, 'Q':14, 'R':15, 'S':16, 'T':17, 'V':18, 'W':19, 'Y':20}}
+labels = X_train[1].astype('category').cat.categories.tolist()
+
+replace_map_comp = {'char' : {k: v for k,v in zip(labels,list(range(1,len(labels)+1)))}}
+#print(replace_map_comp)
+x1 = X_train[1]
+#print(x1)
+x1.replace(replace_map_comp,inplace=True)
+
+print(x1.head())
+
 
 #feature scaling
 sc_X = StandardScaler()
-X_train = sc_X.fit_transform(X_train)
-X_test = sc_X.transform(X_test)
+#X_train = sc_X.fit_transform(X_train)
+#X_test = sc_X.transform(X_test)
 #print(X_train)
 
 #classifier = LogisticRegression()
