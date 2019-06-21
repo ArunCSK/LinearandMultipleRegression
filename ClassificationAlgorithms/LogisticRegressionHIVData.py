@@ -8,16 +8,16 @@ from sklearn.metrics import accuracy_score
 
 
 #windows file path
-#Data_746 = pd.read_csv("D:\\Arundev\\py\\MachineLearningAlgorithms\\ClassificationAlgorithms\\newHIV-1_data\\746Data.txt", sep=',',names=["Octomer","result"])
+Data_746 = pd.read_csv("D:\\Arundev\\py\\MachineLearningAlgorithms\\ClassificationAlgorithms\\newHIV-1_data\\746Data.txt", sep=',',names=["Octomer","result"])
 #Data_1625 = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/1625Data.txt")
 #Data_impens = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/impensData.txt")
 #Data_schilling = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/schillingData.txt")
 
 ##linux file path
-Data_746 = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/746Data.txt", sep=',',names=["Octomer","result"])
-Data_1625 = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/1625Data.txt", sep=',',names=["Octomer","result"])
-Data_impens = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/impensData.txt",sep=',',names=["Octomer","result"])
-Data_schilling = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/schillingData.txt",sep=',',names=["Octomer","result"])
+#Data_746 = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/746Data.txt", sep=',',names=["Octomer","result"])
+#Data_1625 = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/1625Data.txt", sep=',',names=["Octomer","result"])
+#Data_impens = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/impensData.txt",sep=',',names=["Octomer","result"])
+#Data_schilling = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/schillingData.txt",sep=',',names=["Octomer","result"])
 
 
 ##reading CSV using import csv
@@ -33,11 +33,11 @@ Data_schilling = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgori
 
 
 #working in windows
-#x = pd.DataFrame(Data_746.Octomer.str.split('').tolist())
+#X = pd.DataFrame(Data_746.Octomer.str.split('').tolist())
 #x = x.reset_index([0,'result'])
 #y = Data_746["result"].values
 
-#working in linux
+#working in both linux and windows
 X = Data_746['Octomer'].apply(lambda x: pd.Series(list(x)))
 y = Data_746["result"].values
 #X = Data_1625['Octomer'].apply(lambda x: pd.Series(list(x)))
