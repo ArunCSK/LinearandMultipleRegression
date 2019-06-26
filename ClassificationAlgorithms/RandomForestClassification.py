@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.model_selection  import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix , accuracy_score
 from matplotlib.colors import ListedColormap
 import pickle
 
@@ -32,6 +32,7 @@ y_pred = classifier.predict(X_test)
 #print(y_pred)
 #confusion metrices
 cm = confusion_matrix(y_test, y_pred)
+print(accuracy_score(y_test,y_pred)%100)
 
 X_set, y_set = X_train, y_train
 

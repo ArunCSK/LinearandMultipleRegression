@@ -8,16 +8,16 @@ from sklearn.metrics import accuracy_score
 
 
 #windows file path
-Data_746 = pd.read_csv("D:\\Arundev\\py\\MachineLearningAlgorithms\\ClassificationAlgorithms\\newHIV-1_data\\746Data.txt", sep=',',names=["Octomer","result"])
+#Data_746 = pd.read_csv("D:\\Arundev\\py\\MachineLearningAlgorithms\\ClassificationAlgorithms\\newHIV-1_data\\746Data.txt", sep=',',names=["Octomer","result"])
 #Data_1625 = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/1625Data.txt")
 #Data_impens = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/impensData.txt")
 #Data_schilling = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/schillingData.txt")
 
 ##linux file path
-#Data_746 = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/746Data.txt", sep=',',names=["Octomer","result"])
-#Data_1625 = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/1625Data.txt", sep=',',names=["Octomer","result"])
-#Data_impens = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/impensData.txt",sep=',',names=["Octomer","result"])
-#Data_schilling = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/schillingData.txt",sep=',',names=["Octomer","result"])
+Data_746 = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/746Data.txt", sep=',',names=["Octomer","result"])
+Data_1625 = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/1625Data.txt", sep=',',names=["Octomer","result"])
+Data_impens = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/impensData.txt",sep=',',names=["Octomer","result"])
+Data_schilling = pd.read_csv("/home/admin1/Desktop/PythonVM/ClassificationAlgorithms/newHIV-1_data/schillingData.txt",sep=',',names=["Octomer","result"])
 
 
 ##reading CSV using import csv

@@ -1,0 +1,118 @@
+sudo apt-get update 
+sudo apt-get install default-jdk
+wget http://apache.mirrors.tds.net/hadoop/common/hadoop-3.2.0/hadoop-3.2.0.tar.gz
+sudo tar -xvf hadoop-3.2.0.tar.gz
+mkdir input
+cp etc/hadoop/* input/
+ls -ls input/
+
+###ERROR: JAVA_HOME is not set and could not be found.
+##/usr/bin/java
+#go to root to find jdk path
+sudo su 
+which java
+sudo apt-get install vim
+
+
+vim .bashrc
+
+#enter line at end of doucments
+cd etc/hadoop
+JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
+export JAVA_HOME
+
+
+--testing hadoop installation 
+bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.0.jar
+
+bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.0.jar grep input output 'dfs[a-z]+'
+
+ cat output/*
+ls -ls output
+
+
+##install SSH 
+sudo apt-get install openssh-server
+
+### ssh keygen for password-less connection
+##Generate keys
+##dsa and rsa key
+ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa
+ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+
+##adding key to authorized key list
+##dsa key
+cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
+##rsa key
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
+##key access permission
+chmod og-wx ~/.ssh/authorized_keys
+
+
+##java path
+/usr/lib/jvm
+
+##hadoop-env.sh path
+export JAVA_HOME = /usr/lib/jvm/java-11-openjdk-amd64/
+export HADOOP_PREFIX = /Users/aruncsk/hadoop-install/hadoop-3.2.0
+
+JAVA_HOME = '/usr/lib/jvm/java-11-openjdk-amd64/'
+export HADOOP_PREFIX = '/Users/aruncsk/hadoop-install/hadoop-3.2.0'
+export JAVA_HOME
+
+##peusdo distributed mode
+
+#comman for hadoop config
+vim etc/hadoop/core-site.xml
+
+<configuration>
+ <property>
+   <name>fs.defaultFS</name>
+   <value>hdfs://localhost:9000</value>
+ </property>
+</configuration>
+
+
+#hdfs config
+vim etc/hadoop/hdfs-site.xml
+<configuration>
+ <property>
+   <name>dfs.replication</name>
+   <value>l</value>
+ </property>
+</configuration>
+
+#mapreduce config
+vim etc/hadoop/mapred-site.xml
+<configuration>
+ <property>
+   <name>mapreduce.framework.name</name>
+   <value>yarn</value>
+ </property>
+</configuration>
+
+
+#yarn config
+vim etc/hadoop/yarn-site.xml
+<configuration>
+ <property>
+   <name>yarn.nodemanger.aux-services</name>
+   <value>mapreduce_shuffle</value>
+ </property>
+</configuration>
+
+
+#format namenode
+bin/hdfs namenode -format
+
+#start master and slave node of distributed system
+sbin/start-dfs.sh
+
+#check hdfs proces , name node and slave running in localhost:50070
+
+#create user home directory 
+bin/hdfs dfs -mkdir /user/arun
+
+
+

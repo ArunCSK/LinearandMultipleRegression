@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.model_selection  import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix , accuracy_score
 import pickle
 
 #Load Data
@@ -18,6 +18,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25 , ran
 
 #feature scaling
 sc_X = StandardScaler()
+
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
 #print(X_test)
@@ -30,6 +31,7 @@ y_pred = classifier.predict(X_test)
 #print(y_pred)
 #confusion metrices
 cm = confusion_matrix(y_test, y_pred)
+print(accuracy_score(y_test, y_pred)%100)
 
 X_set, y_set = X_train, y_train
 #X1, X2 = np.meshgrid(np.arange(start = X_set[:, 0].min() -1 , stop = X_set[:, 0 ].max()+1 , step = 0.01),

@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.model_selection  import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix , accuracy_score
 from matplotlib.colors import ListedColormap
 import pickle
 
@@ -35,11 +35,11 @@ cm = confusion_matrix(y_test, y_pred)
 
 X_set, y_set = X_train, y_train
 
-x0 = X[np.where(y == 0)]
-x1 = X[np.where(y == 1)]
+#x0 = X[np.where(y == 0)]
+#x1 = X[np.where(y == 1)]
 
-plt.scatter(x0[:, 0], x0[:, 1], c = 'b' , label='Will buy')
-plt.scatter(x1[:, 0], x1[:, 1], c = 'r' , label='Will not buy')
+#plt.scatter(x0[:, 0], x0[:, 1], c = 'b' , label='Will buy')
+#plt.scatter(x1[:, 0], x1[:, 1], c = 'r' , label='Will not buy')
 
 
 #kuch samja nahi

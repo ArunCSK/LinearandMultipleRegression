@@ -28,8 +28,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.30 , ran
 #Get Dummies
 #X_Train_dummies = pd.get_dummies(X_train.iloc[:,0:9] ,columns=[0,1,2,3,4,5,6,7])
 #X_Test_dummies = pd.get_dummies(X_test.iloc[:,0:9] ,columns=[0,1,2,3,4,5,6,7])
-X_Train_dummies = pd.get_dummies(X_train.iloc[:,3:5] ,columns=[3,4])
-X_Test_dummies = pd.get_dummies(X_test.iloc[:,3:5] ,columns=[3,4])
+X_Train_dummies = pd.get_dummies(X_train.iloc[:,3:5] )
+X_Test_dummies = pd.get_dummies(X_test.iloc[:,3:5] )
 
 #feature scaling
 sc_X = StandardScaler()
@@ -37,7 +37,7 @@ sc_X_test = StandardScaler()
 X_train = sc_X.fit_transform(X_Train_dummies)
 X_test = sc_X_test.fit_transform(X_Test_dummies)
 
-classifier = DecisionTreeClassifier()
+classifier = DecisionTreeClassifier(random_state=0)
 classifier.fit(X_train, y_train)
 
 
