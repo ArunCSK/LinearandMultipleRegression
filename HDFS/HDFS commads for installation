@@ -54,65 +54,97 @@ chmod og-wx ~/.ssh/authorized_keys
 /usr/lib/jvm
 
 ##hadoop-env.sh path
-export JAVA_HOME = /usr/lib/jvm/java-11-openjdk-amd64/
-export HADOOP_PREFIX = /Users/aruncsk/hadoop-install/hadoop-3.2.0
-
-JAVA_HOME = '/usr/lib/jvm/java-11-openjdk-amd64/'
-export HADOOP_PREFIX = '/Users/aruncsk/hadoop-install/hadoop-3.2.0'
+export JAVA_HOME =/usr/lib/jvm/java-11-openjdk-amd64/
+export HADOOP_HOME=/usr/local/hadoop
+export PATH=$PATH:$HADOOP_HOME/bin
+export PATH=$PATH:$HADOOP_HOME/sbin
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export YARN_HOME+$HADOOP_HOME
+export HADOOP_COMMAN_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+export HADOOP_OPTS="-Djava.libary.path=$HADOOP_HOME/lib"
+PATH=$PATH:$JAVA_HOME
+export PATH
+export HADOOP_PREFIX=/Users/aruncsk/hadoop-install/hadoop-3.2.0
 export JAVA_HOME
 
 ##peusdo distributed mode
 
 #comman for hadoop config
 vim etc/hadoop/core-site.xml
-
+sudo vi core.site.xml
 <configuration>
- <property>
-   <name>fs.defaultFS</name>
-   <value>hdfs://localhost:9000</value>
- </property>
+<property>
+<name>fs.default.name</name>
+<value>hdfs://localhost:9000</value>
+</property>
 </configuration>
 
 
 #hdfs config
 vim etc/hadoop/hdfs-site.xml
 <configuration>
- <property>
-   <name>dfs.replication</name>
-   <value>l</value>
- </property>
+<property>
+<name>dfs.replication</name>
+<value>1</value>
+</property>
+<porperty>
+<name>dfs.name.dir</name>
+<value>file:///home/aruncsk/hadoopspace/hdfs/namenode</value>
+</porperty>
+<porperty>
+<name>dfs.data.dir</name>
+<value>file:///home/aruncsk/hadoopspace/hdfs/namenode</value>
+</porperty>
+
 </configuration>
 
 #mapreduce config
 vim etc/hadoop/mapred-site.xml
 <configuration>
- <property>
-   <name>mapreduce.framework.name</name>
-   <value>yarn</value>
- </property>
+<property>
+<name>mapreduce.framework.name</name>
+<value>yarn</value>
+</property>
 </configuration>
 
 
 #yarn config
 vim etc/hadoop/yarn-site.xml
 <configuration>
- <property>
-   <name>yarn.nodemanger.aux-services</name>
-   <value>mapreduce_shuffle</value>
- </property>
+<property>
+<name>yarn.nodemanager.aux-services</name>
+<value>mapreduce_shuffle</value>
+</property>
 </configuration>
 
 
+#make local dir for namenode and datanode
+mkdir -p /home/aruncsk/hadoopspace/hdfs/namenode
+mkdir -p /home/aruncsk/hadoopspace/hdfs/namenode/datanode
+
+#permission
+sudo chown -R aruncsk:aruncsk /usr/local/hadoop
+
 #format namenode
 bin/hdfs namenode -format
+hdfs namenode -format
 
 #start master and slave node of distributed system
 sbin/start-dfs.sh
+start-dfs.sh
 
 #check hdfs proces , name node and slave running in localhost:50070
 
 #create user home directory 
 bin/hdfs dfs -mkdir /user/arun
 
+sbin/start-yarn.sh
+start-yarn.sh
+##copy example files from hadoop 
+bin/hdfs dfs -put etc/hadoop/* input/
 
 
+/usr/lib/jvm/java-8-openjdk-amd64/
+/usr/lib/jvm/java-8-openjdk-amd64
