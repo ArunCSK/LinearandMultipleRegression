@@ -118,6 +118,7 @@ vim etc/hadoop/hdfs-site.xml
 9.Add below configuration to hadoop-env.sh
 #java path hadoop-env.sh
 export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+export JAVA_LIBRARY_PATH=${JAVA_LIBRARY_PATH}:/etc/opencv/lib
 
 10. Make below directory from root
 #make local dir for namenode and datanode
@@ -129,7 +130,7 @@ sudo chown -R aruncsk:aruncsk /usr/local/hadoop
 #format namenode
 hdfs namenode -format
 
-#start servic3es
+#start services
 start-dfs.sh
 start-yarn.sh
 start-all.sh
@@ -140,5 +141,20 @@ hdfs dfs -ls /
 hdfs dfs -mkdir /arun
 
 #############################################################################################################
+
+
+Running mapreduce programs
+
+#grand permission to files
+chmod +x /home/hduser/reducer.py
+
+
+hadoop jar contrib/streaming/hadoop-*streaming*.jar \
+-file /home/aruncsk/mapper.py    -mapper /home/hduser/mapper.py \
+-file /home/aruncsk/reducer.py   -reducer /home/hduser/reducer.py \
+-input /arun/* -output /user/aruncsk/txt-output
+
+
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming.jar -file /home/aruncsk/mapper.py    -mapper /home/hduser/mapper.py -file /home/aruncsk/reducer.py   -reducer /home/hduser/reducer.py -input /arun/* -output /user/aruncsk/txt-output
 
 
