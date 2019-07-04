@@ -158,3 +158,32 @@ hadoop jar contrib/streaming/hadoop-*streaming*.jar \
 hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming.jar -file /home/aruncsk/mapper.py    -mapper /home/hduser/mapper.py -file /home/aruncsk/reducer.py   -reducer /home/hduser/reducer.py -input /arun/* -output /user/aruncsk/txt-output
 
 
+
+###############################################################################################################
+
+Install Apache Spark Commands
+1.Download Scala and extract
+  wget https://downloads.lightbend.com/scala/2.13.0/scala-2.13.0.tgz
+  sudo tar xvf scala-2.13.0.tgz
+
+2.Set path in bash file
+   sudo vim ~/.bashrc
+   export SCALA_HOME=Downloads/scala-2.13.0/
+   export PATH=$PATH:$SCALA_HOME/bin
+   source ~/.bashrc
+
+3.Download Spark and extract
+  wget http://mirrors.estointernet.in/apache/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz
+  tar xvf spark-2.4.3-bin-hadoop2.7.tgz	
+
+4.Set path in bash file
+  sudo vim ~/.bashrc
+  export SPARK_HOME=/home/aruncsk/spark-2.4.3-bin-hadoop2.7
+  export PATH=$SPARK_HOME/bin:$PATH
+  source ~/.bashrc
+  
+
+
+
+
+
