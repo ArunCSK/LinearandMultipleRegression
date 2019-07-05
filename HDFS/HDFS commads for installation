@@ -181,6 +181,61 @@ Install Apache Spark Commands
   export SPARK_HOME=/home/aruncsk/spark-2.4.3-bin-hadoop2.7
   export PATH=$SPARK_HOME/bin:$PATH
   source ~/.bashrc
+
+5. Start service standalone
+  cd $SPARK_HOME
+  ./sbin/start-master.sh
+
+6. Enter spark shell
+   spark-shell 
+ 
+7 .Read text file
+  create a text file in $SPARK_HOME directory
+  val data = sc.textFile("data.txt")
+  var hFile = sc.textFile("hdfs://localhost:9000/inp")
+
+  data.count()
+  data.collect()
+  
+  MapReduce using functions
+  val wc = hFile.flatMap(line => line.split(" ")).map(word => (word, 1)).reduceByKey(_ + _)
+  val wc = data.flatMap(line => line.split(" ")).map(word => (word, 1)).reduceByKey(_ + _)
+  
+  wc.collect()
+  wc.take(10)
+
+
+#########################################################################################################################
+
+Installting Kafka 
+
+1.Dowload and extract files
+ wget http://www-us.apache.org/dist/kafka/2.2.1/kafka_2.12-2.2.1.tgz
+ tar xzf kafka_2.12-2.2.1.tgz
+ mv kafka_2.12-2.2.1 /usr/local/kafka
+
+2. Start kafka server
+   cd /home/aruncsk/kafka_2.12-2.2.1/
+   bin/zookeeper-server-start.sh config/zookeeper.properties
+   bin/kafka-server-start.sh config/server.properties
+
+3. Create topic 
+  bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic testTopic
+  
+4. check topic 
+  bin/kafka-topics.sh --list --zookeeper localhost:2181
+
+5. Producer
+  bin/kafka-console-producer.sh --broker-list localhost:9092 --topic testTopic
+
+6. Consumer
+  bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic testTopic --from-beginning
+
+
+##########################################################################################################################
+
+
+
   
 
 
