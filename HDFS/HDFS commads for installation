@@ -140,6 +140,12 @@ stop-all.sh
 hdfs dfs -ls /
 hdfs dfs -mkdir /arun
 
+#put files
+hdfs dfs -put Downloads/arun/text.txt /user/input
+
+#read file blocks
+hdfs fsck /user/input -files -blocks
+
 #############################################################################################################
 
 
