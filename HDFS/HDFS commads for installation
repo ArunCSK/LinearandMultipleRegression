@@ -146,6 +146,12 @@ hdfs dfs -put Downloads/arun/text.txt /user/input
 #read file blocks
 hdfs fsck /user/input -files -blocks
 
+#change block size
+hdfs dfs -D dfs.blocksize=1024360 -put /user/input /arun
+
+#read file blocks
+hdfs fsck /user/input -files -blocks -locations
+
 #############################################################################################################
 
 
@@ -161,7 +167,7 @@ hadoop jar contrib/streaming/hadoop-*streaming*.jar \
 -input /arun/* -output /user/aruncsk/txt-output
 
 
-hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming.jar -file /home/aruncsk/mapper.py    -mapper /home/hduser/mapper.py -file /home/aruncsk/reducer.py   -reducer /home/hduser/reducer.py -input /arun/* -output /user/aruncsk/txt-output
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming.jar -file /home/aruncsk/mapper.py    -mapper /home/aruncsk/mapper.py -file /home/aruncsk/reducer.py   -reducer /home/aruncsk/reducer.py -input /arun/* -output /user/aruncsk/txt-output
 
 
 
@@ -225,11 +231,16 @@ Installting Kafka
    bin/zookeeper-server-start.sh config/zookeeper.properties
    bin/kafka-server-start.sh config/server.properties
 
+##test zookeeper running from telnet 
+telnet localhost 2181
+
 3. Create topic 
   bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic testTopic
   
 4. check topic 
   bin/kafka-topics.sh --list --zookeeper localhost:2181
+  #describe testTopic
+  bin/kafka-topics.sh --describe --topic testTopic --zookeeper localhost:2181
 
 5. Producer
   bin/kafka-console-producer.sh --broker-list localhost:9092 --topic testTopic
@@ -240,7 +251,41 @@ Installting Kafka
 
 ##########################################################################################################################
 
+Week5 Stock model predections
 
+Aanconda isntallation
+
+cd /tmp
+curl -O https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
+sha256sum Anaconda3-2019.03-Linux-x86_64.sh
+bash Anaconda3-2019.03-Linux-x86_64.sh
+## anconda prefix = PREFIX=/home/aruncsk/anaconda3
+source ~/.bashrc
+
+python3 -m pip install --upgrade pip
+python3 -m pip install jupyter
+
+##jupyter notebook
+http://13.70.24.114:8888/
+
+
+#install chrome
+#wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#sudo dpkg -i google-chrome-stable_current_amd64.deb
+#ssh -L 8888:localhost:8888 admin1@192.168.0.255
+
+##notebook configuration
+https://jupyter-notebook.readthedocs.io/en/stable/config_overview.html
+ jupyter notebook --generate-config
+ vi ./.jupyter/jupyter_notebook_config.py
+ c.NotebookApp.ip = '0.0.0.0'
+
+
+https://mapr.com/blog/configure-jupyter-spark-python/
+
+
+
+		
 
   
 
