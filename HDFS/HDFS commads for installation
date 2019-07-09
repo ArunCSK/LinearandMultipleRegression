@@ -268,20 +268,25 @@ python3 -m pip install jupyter
 ##jupyter notebook
 http://13.70.24.114:8888/
 
-
-#install chrome
-#wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-#sudo dpkg -i google-chrome-stable_current_amd64.deb
-#ssh -L 8888:localhost:8888 admin1@192.168.0.255
-
 ##notebook configuration
 https://jupyter-notebook.readthedocs.io/en/stable/config_overview.html
  jupyter notebook --generate-config
  vi ./.jupyter/jupyter_notebook_config.py
  c.NotebookApp.ip = '0.0.0.0'
 
+#bashrc config
+export PYSPARK_DRIVER_PYTHON=jupyter
+export PYSPARK_DRIVER_PYTHON_OPTS='notebook'
 
-https://mapr.com/blog/configure-jupyter-spark-python/
+#jupyter-note book config
+ jupyter notebook --generate-config
+c.NotebookApp.token = ''
+c.NotebookApp.password = ''
+
+
+###########################################################################################################################
+
+
 
 
 
