@@ -161,7 +161,7 @@ Running mapreduce programs
 chmod +x /home/hduser/reducer.py
 
 
-hadoop jar contrib/streaming/hadoop-*streaming*.jar \
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.2.0 \
 -file /home/aruncsk/mapper.py    -mapper /home/hduser/mapper.py \
 -file /home/aruncsk/reducer.py   -reducer /home/hduser/reducer.py \
 -input /arun/* -output /user/aruncsk/txt-output
@@ -285,6 +285,43 @@ c.NotebookApp.password = ''
 
 
 ###########################################################################################################################
+
+#creating virtual env and connect to jupyter
+
+conda create -n yourenvname python=x.x anaconda
+conda create -n arunenv python=2.7
+
+source activate yourenvname
+conda active arunenv
+#source deactivate
+
+##not working
+#which python
+#conda create -n ipykernel_py3 python=3 ipykernel
+#source activate ipykernel_py3
+#python -m ipykernel install --user
+
+pip install ipykernel
+python -m ipykernel install --user --name=arunenv
+
+conda install numpy
+conda install pandas
+conda install pyspark
+
+conda install -c conda-forge python-hdfs 
+#conda install -c conda-forge/label/gcc7 python-hdfs 
+#conda install -c conda-forge/label/cf201901 python-hdfs 
+
+pip install matplotlib
+conda install -c conda-forge matplotlib 
+
+
+
+
+
+ 
+
+
 
 
 
