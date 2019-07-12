@@ -216,6 +216,12 @@ Install Apache Spark Commands
   wc.collect()
   wc.take(10)
 
+8. Exit safe mode 
+To remove from safe mode:
+hadoop dfsadmin -safemode leave
+
+To check if file is currupted or not
+hdfs fsck -list-corruptfileblocks
 
 #########################################################################################################################
 
