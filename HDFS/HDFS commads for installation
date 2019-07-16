@@ -321,8 +321,28 @@ conda install -c conda-forge python-hdfs
 pip install matplotlib
 conda install -c conda-forge matplotlib 
 
+#################################################################################################################
 
+Install Azure Databricks
+#Activate virtual env
+ source env/bin/activate
 
+host: https://localhost:8080/
+
+1. pip install databricks-cli
+2. databricks configure --token
+3. databricks configure --profile arundatabricks
+4. databricks workspace ls --profile arundatabricks
+
+##Copy a file to DBFS
+ dbfs cp test.txt dbfs:/test.txt
+# Or recursively
+ dbfs cp -r test-dir dbfs:/test-dir
+
+#Copy a file from DBFS
+ dbfs cp dbfs:/test.txt ./test.txt
+# Or recursively 
+ dbfs cp -r dbfs:/test-dir ./test-dir
 
 
  
