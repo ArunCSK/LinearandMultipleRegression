@@ -1,0 +1,27 @@
+import pandas as pd
+
+dbutils.widgets.text("output", "","")
+dbutils.widgets.get("output")
+FilePath = getArgument("output")
+
+dbutils.widgets.text("filename", "","")
+dbutils.widgets.get("filename")
+filename = getArgument("filename")
+#print(FilePath)
+storage_account_name = "arunstorage12"
+storage_account_access_key = "iFCTVZveS/XvhhHfL/Phpf/r3UM3CPwSBkEwiQWePdALeW9hamYc6mAEXQMeSjQVrAdCY19hfFlUBLmKbwsbog=="
+
+spark.conf.set(
+ "fs.azure.account.key."+storage_account_name+".blob.core.windows.net",
+ storage_account_access_key)
+
+
+#file_location = "wasbs://example/location"+FilePath
+file_location = "wasbs://aruncontainer@arunstorage12.blob.core.windows.net"+FilePath+"/"+filename
+#file_location = @input
+print(file_location)
+file_type = "csv"
+
+
+df = spark.read.format(file_type).option("inferSchema", "true").load(file_location)
+df.show()
