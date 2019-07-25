@@ -361,6 +361,7 @@ export KAFKAZKHOSTS=`curl -sS -u admin:$password -G http://headnodehost:8080/api
 export KAFKABROKERS=`curl -sS -u admin:$password -G http://headnodehost:8080/api/v1/clusters/$clusterName/services/KAFKA/components/KAFKA_BROKER | jq -r '["\(.host_components[].HostRoles.host_name):9092"] | join(",")' | cut -d',' -f1,2`
 
 
+
 #create topic
 /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --replication-factor 3 --partitions 8 --topic test --zookeeper $KAFKAZKHOSTS
 
@@ -370,8 +371,18 @@ export KAFKABROKERS=`curl -sS -u admin:$password -G http://headnodehost:8080/api
 #delete topic
 /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --delete --topic topicname --zookeeper $KAFKAZKHOSTS
 
+#consumer
+  /usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
+
+#producer
+ /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
 
 
+
+arunkafkacluster
+
+zk1-arunka.o04a3kjzrqlu3ermjx0gsiua3e.cx.internal.cloudapp.net:2181,zk2-arunka.o04a3kjzrqlu3ermjx0gsiua3e.cx.internal.cloudapp.net:2181
+wn0-arunka.o04a3kjzrqlu3ermjx0gsiua3e.cx.internal.cloudapp.net:9092,wn1-arunka.o04a3kjzrqlu3ermjx0gsiua3e.cx.internal.cloudapp.net:9092
  
 
 
