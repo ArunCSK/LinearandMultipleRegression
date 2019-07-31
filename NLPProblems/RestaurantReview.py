@@ -30,7 +30,8 @@ corpus = []
 
 for i in range(0, len(DataSet)):
     review = re.sub('[^a-zA-Z]', ' ', DataSet['Review'][i])
-    review = review.split()
+    #review = review.split()
+    review = word_tokenize(review)
     #print(review)
     ps = PorterStemmer()
 
@@ -44,7 +45,6 @@ for i in range(0, len(DataSet)):
 cv = CountVectorizer(max_features = 1500)
 X = cv.fit_transform(corpus).toarray()
 y = DataSet.iloc[:, 1].values
-
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size= 0.25 , random_state = 0)
 
 model = RandomForestClassifier(n_estimators= 501, criterion='entropy')
