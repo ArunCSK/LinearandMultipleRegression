@@ -1,118 +1,405 @@
+
+#############################################################################################################
+
+##HDFDS Installation
+1.Environment  Setup
 sudo apt-get update 
-sudo apt-get install default-jdk
-wget http://apache.mirrors.tds.net/hadoop/common/hadoop-3.2.0/hadoop-3.2.0.tar.gz
-sudo tar -xvf hadoop-3.2.0.tar.gz
-mkdir input
-cp etc/hadoop/* input/
-ls -ls input/
+#sudo apt-get install default-jdk
+sudo apt install -y openjdk-8-jdk wget
+sudo apt-get install rsync
+sudo apt-get install ssh
 
-###ERROR: JAVA_HOME is not set and could not be found.
-##/usr/bin/java
-#go to root to find jdk path
-sudo su 
-which java
-sudo apt-get install vim
-
-
-vim .bashrc
-
-#enter line at end of doucments
-cd etc/hadoop
-JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
-export JAVA_HOME
-
-
---testing hadoop installation 
-bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.0.jar
-
-bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.0.jar grep input output 'dfs[a-z]+'
-
- cat output/*
-ls -ls output
-
-
-##install SSH 
-sudo apt-get install openssh-server
-
+2. Install ssh certificate
 ### ssh keygen for password-less connection
 ##Generate keys
 ##dsa and rsa key
 ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa
 ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
-
 ##adding key to authorized key list
 ##dsa key
 cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
 ##rsa key
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
+
 ##key access permission
 chmod og-wx ~/.ssh/authorized_keys
 
+3.Download hadoop and install
+wget http://apache.mirrors.tds.net/hadoop/common/hadoop-3.2.0/hadoop-3.2.0.tar.gz
+sudo tar -xvf hadoop-3.2.0.tar.gz
+sudo mv hadoop-3.2.0 /usr/local/hadoop
 
-##java path
-/usr/lib/jvm
-
+4. Adding Hadoop environment varaibale to bash file
+#adding hadoop variables in bashrc files
 ##hadoop-env.sh path
-export JAVA_HOME = /usr/lib/jvm/java-11-openjdk-amd64/
-export HADOOP_PREFIX = /Users/aruncsk/hadoop-install/hadoop-3.2.0
-
-JAVA_HOME = '/usr/lib/jvm/java-11-openjdk-amd64/'
-export HADOOP_PREFIX = '/Users/aruncsk/hadoop-install/hadoop-3.2.0'
-export JAVA_HOME
-
-##peusdo distributed mode
-
-#comman for hadoop config
-vim etc/hadoop/core-site.xml
-
-<configuration>
- <property>
-   <name>fs.defaultFS</name>
-   <value>hdfs://localhost:9000</value>
- </property>
-</configuration>
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export HADOOP_HOME=/usr/local/hadoop
+export PATH=$PATH:$HADOOP_HOME/bin
+export PATH=$PATH:$HADOOP_HOME/sbin
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+#export HADOOP_MAPRED_HOME=$HADOOP_HOME/share/hadoop/mapreduce/
+#export HADOOP_MAPRED_HOME=$HADOOP_HOME/share/hadoop/mapreduce/lib/
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export YARN_HOME=$HADOOP_HOME
+export HADOOP_COMMAN_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+export HADOOP_OPTS="-Djava.libary.path=$HADOOP_HOME/lib"
 
 
-#hdfs config
-vim etc/hadoop/hdfs-site.xml
-<configuration>
- <property>
-   <name>dfs.replication</name>
-   <value>l</value>
- </property>
-</configuration>
+source ~/.bashrc
+
+#permission
+sudo chown -R aruncsk:aruncsk /usr/local/hadoop
+
+5.Add below configuration to mapred-site.xml
+#sudo cp mapred-site.xml.template mapred-site.xml
 
 #mapreduce config
 vim etc/hadoop/mapred-site.xml
 <configuration>
- <property>
-   <name>mapreduce.framework.name</name>
-   <value>yarn</value>
- </property>
+<property>
+<name>mapreduce.framework.name</name>
+<value>yarn</value>
+</property>
+<property>
+<name>yarn.app.mapreduce.am.env</name>
+<value>HADOOP_MAPRED_HOME=${HADOOP_HOME}</value>
+</property>
+<property>
+<name>mapreduce.map.env</name>
+<value>HADOOP_MAPRED_HOME=${HADOOP_HOME}</value>
+</property>
+<property>
+<name>mapreduce.reduce.env</name>
+<value>HADOOP_MAPRED_HOME=${HADOOP_HOME}</value>
+</property>
 </configuration>
 
-
+6.Add below configuration to yarn-site.xml
 #yarn config
 vim etc/hadoop/yarn-site.xml
 <configuration>
- <property>
-   <name>yarn.nodemanger.aux-services</name>
-   <value>mapreduce_shuffle</value>
- </property>
+<property>
+<name>yarn.nodemanager.aux-services</name>
+<value>mapreduce_shuffle</value>
+</property>
 </configuration>
 
+7.Add below configuration to core-site.xml
+#comman for hadoop config
+vim etc/hadoop/core-site.xml
+sudo vi core.site.xml
+<configuration>
+<property>
+<name>fs.default.name</name>
+<value>hdfs://localhost:9000</value>
+</property>
+</configuration>
+
+8.Add below configuration to hdfs-site.xml
+#hdfs config
+vim etc/hadoop/hdfs-site.xml
+<configuration>
+<property>
+<name>dfs.replication</name>
+<value>1</value>
+</property>
+<porperty>
+<name>dfs.name.dir</name>
+<value>file:///home/aruncsk/hadoopspace/hdfs/namenode</value>
+</porperty>
+<porperty>
+<name>dfs.data.dir</name>
+<value>file:///home/aruncsk/hadoopspace/hdfs/namenode</value>
+</porperty>
+</configuration>
+
+9.Add below configuration to hadoop-env.sh
+#java path hadoop-env.sh
+export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+export JAVA_LIBRARY_PATH=${JAVA_LIBRARY_PATH}:/etc/opencv/lib
+
+10. Make below directory from root
+#make local dir for namenode and datanode
+mkdir -p /home/aruncsk/hadoopspace/hdfs/namenode
+mkdir -p /home/aruncsk/hadoopspace/hdfs/namenode/datanode
+
+sudo chown -R aruncsk:aruncsk /usr/local/hadoop
 
 #format namenode
-bin/hdfs namenode -format
+hdfs namenode -format
 
-#start master and slave node of distributed system
-sbin/start-dfs.sh
+#start services
+start-dfs.sh
+start-yarn.sh
+start-all.sh
+stop-all.sh
 
-#check hdfs proces , name node and slave running in localhost:50070
+#hdfs commands
+hdfs dfs -ls /
+hdfs dfs -mkdir /arun
 
-#create user home directory 
-bin/hdfs dfs -mkdir /user/arun
+#put files
+hdfs dfs -put Downloads/arun/text.txt /user/input
+
+#read file blocks
+hdfs fsck /user/input -files -blocks
+
+#change block size
+hdfs dfs -D dfs.blocksize=1024360 -put /user/input /arun
+
+#read file blocks
+hdfs fsck /user/input -files -blocks -locations
+
+#############################################################################################################
+
+
+Running mapreduce programs
+
+#grand permission to files
+chmod +x /home/hduser/reducer.py
+
+
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.2.0 \
+-file /home/aruncsk/mapper.py    -mapper /home/hduser/mapper.py \
+-file /home/aruncsk/reducer.py   -reducer /home/hduser/reducer.py \
+-input /arun/* -output /user/aruncsk/txt-output
+
+
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming.jar -file /home/aruncsk/mapper.py    -mapper /home/aruncsk/mapper.py -file /home/aruncsk/reducer.py   -reducer /home/aruncsk/reducer.py -input /arun/* -output /user/aruncsk/txt-output
+
+
+
+###############################################################################################################
+
+Install Apache Spark Commands
+1.Download Scala and extract
+  wget https://downloads.lightbend.com/scala/2.13.0/scala-2.13.0.tgz
+  sudo tar xvf scala-2.13.0.tgz
+
+2.Set path in bash file
+   sudo vim ~/.bashrc
+   export SCALA_HOME=Downloads/scala-2.13.0/
+   export PATH=$PATH:$SCALA_HOME/bin
+   source ~/.bashrc
+
+3.Download Spark and extract
+  wget http://mirrors.estointernet.in/apache/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz
+  tar xvf spark-2.4.3-bin-hadoop2.7.tgz	
+
+4.Set path in bash file
+  sudo vim ~/.bashrc
+  export SPARK_HOME=/home/aruncsk/spark-2.4.3-bin-hadoop2.7
+  export PATH=$SPARK_HOME/bin:$PATH
+  source ~/.bashrc
+
+5. Start service standalone
+  cd $SPARK_HOME
+  ./sbin/start-master.sh
+
+6. Enter spark shell
+   spark-shell 
+ 
+7 .Read text file
+  create a text file in $SPARK_HOME directory
+  val data = sc.textFile("data.txt")
+  var hFile = sc.textFile("hdfs://localhost:9000/inp")
+
+  data.count()
+  data.collect()
+  
+  MapReduce using functions
+  val wc = hFile.flatMap(line => line.split(" ")).map(word => (word, 1)).reduceByKey(_ + _)
+  val wc = data.flatMap(line => line.split(" ")).map(word => (word, 1)).reduceByKey(_ + _)
+  
+  wc.collect()
+  wc.take(10)
+
+8. Exit safe mode 
+To remove from safe mode:
+hadoop dfsadmin -safemode leave
+
+To check if file is currupted or not
+hdfs fsck -list-corruptfileblocks
+
+#########################################################################################################################
+
+Installting Kafka 
+
+1.Dowload and extract files
+ wget http://www-us.apache.org/dist/kafka/2.2.1/kafka_2.12-2.2.1.tgz
+ tar xzf kafka_2.12-2.2.1.tgz
+ mv kafka_2.12-2.2.1 /usr/local/kafka
+
+2. Start kafka server
+   cd /home/aruncsk/kafka_2.12-2.2.1/
+   bin/zookeeper-server-start.sh config/zookeeper.properties
+   bin/kafka-server-start.sh config/server.properties
+
+##test zookeeper running from telnet 
+telnet localhost 2181
+
+3. Create topic 
+  bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic testTopic
+  
+4. check topic 
+  bin/kafka-topics.sh --list --zookeeper localhost:2181
+  #describe testTopic
+  bin/kafka-topics.sh --describe --topic testTopic --zookeeper localhost:2181
+
+5. Producer
+  bin/kafka-console-producer.sh --broker-list localhost:9092 --topic testTopic
+
+6. Consumer
+  bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic testTopic --from-beginning
+
+
+##########################################################################################################################
+
+Week5 Stock model predections
+
+Aanconda isntallation
+
+cd /tmp
+curl -O https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
+sha256sum Anaconda3-2019.03-Linux-x86_64.sh
+bash Anaconda3-2019.03-Linux-x86_64.sh
+## anconda prefix = PREFIX=/home/aruncsk/anaconda3
+source ~/.bashrc
+
+python3 -m pip install --upgrade pip
+python3 -m pip install jupyter
+
+##jupyter notebook
+http://13.70.24.114:8888/
+
+##notebook configuration
+https://jupyter-notebook.readthedocs.io/en/stable/config_overview.html
+ jupyter notebook --generate-config
+ vi ./.jupyter/jupyter_notebook_config.py
+ c.NotebookApp.ip = '0.0.0.0'
+
+#bashrc config
+export PYSPARK_DRIVER_PYTHON=jupyter
+export PYSPARK_DRIVER_PYTHON_OPTS='notebook'
+
+#jupyter-note book config
+ jupyter notebook --generate-config
+c.NotebookApp.token = ''
+c.NotebookApp.password = ''
+
+
+###########################################################################################################################
+
+#creating virtual env and connect to jupyter
+
+conda create -n yourenvname python=x.x anaconda
+conda create -n arunenv python=2.7
+
+source activate yourenvname
+conda active arunenv
+#source deactivate
+
+##not working
+#which python
+#conda create -n ipykernel_py3 python=3 ipykernel
+#source activate ipykernel_py3
+#python -m ipykernel install --user
+
+pip install ipykernel
+python -m ipykernel install --user --name=arunenv
+
+conda install numpy
+conda install pandas
+conda install pyspark
+
+conda install -c conda-forge python-hdfs 
+#conda install -c conda-forge/label/gcc7 python-hdfs 
+#conda install -c conda-forge/label/cf201901 python-hdfs 
+
+pip install matplotlib
+conda install -c conda-forge matplotlib 
+
+#################################################################################################################
+
+Install Azure Databricks
+#Activate virtual env
+ source env/bin/activate
+
+host: https://localhost:8080/
+
+1. pip install databricks-cli
+2. databricks configure --token
+3. databricks configure --profile arundatabricks
+4. databricks workspace ls --profile arundatabricks
+
+##Copy a file to DBFS
+ dbfs cp test.txt dbfs:/test.txt
+# Or recursively
+ dbfs cp -r test-dir dbfs:/test-dir
+
+#Copy a file from DBFS
+ dbfs cp dbfs:/test.txt ./test.txt
+# Or recursively 
+ dbfs cp -r dbfs:/test-dir ./test-dir
+
+##################################################################################################################################
+
+Kafka Installation:
+
+1. sudo apt -y install jq
+2. export password='PASSWORD'
+   export clusterNameA='CLUSTERNAME'
+   export clusterName=$(curl -u admin:$password -sS -G "https://$clusterNameA.azurehdinsight.net/api/v1/clusters" | jq -r '.items[].Clusters.cluster_name')
+   echo $clusterName, $clusterNameA
+   
+#kafka host 
+export KAFKAZKHOSTS=`curl -sS -u admin:$password -G http://headnodehost:8080/api/v1/clusters/$clusterName/services/ZOOKEEPER/components/ZOOKEEPER_SERVER | jq -r '["\(.host_components[].HostRoles.host_name):2181"] | join(",")' | cut -d',' -f1,2`
+   
+#kafka brokers
+export KAFKABROKERS=`curl -sS -u admin:$password -G http://headnodehost:8080/api/v1/clusters/$clusterName/services/KAFKA/components/KAFKA_BROKER | jq -r '["\(.host_components[].HostRoles.host_name):9092"] | join(",")' | cut -d',' -f1,2`
+
+
+
+#create topic
+/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --replication-factor 3 --partitions 8 --topic test --zookeeper $KAFKAZKHOSTS
+
+#list topic
+/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper $KAFKAZKHOSTS
+
+#delete topic
+/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --delete --topic topicname --zookeeper $KAFKAZKHOSTS
+
+#consumer
+  /usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
+
+#producer
+ /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+
+
+
+arunkafkacluster
+
+zk1-arunka.o04a3kjzrqlu3ermjx0gsiua3e.cx.internal.cloudapp.net:2181,zk2-arunka.o04a3kjzrqlu3ermjx0gsiua3e.cx.internal.cloudapp.net:2181
+wn0-arunka.o04a3kjzrqlu3ermjx0gsiua3e.cx.internal.cloudapp.net:9092,wn1-arunka.o04a3kjzrqlu3ermjx0gsiua3e.cx.internal.cloudapp.net:9092
+
+
+/subscriptions/arun.subburaj@capgemini.com - C992AAC/resourceGroups/1c38b3b9-bf22-4c15-afba-fd39487f52cc
+
+ 
+
+
+
+
+
+
+
+		
+
+  
+
+
 
 
 
