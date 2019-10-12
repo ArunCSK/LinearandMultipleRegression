@@ -7,7 +7,7 @@ from sklearn.metrics import confusion_matrix , accuracy_score
 import pickle
 
 #Load Data
-dataset = pd.read_csv("Social_Network_Ads.csv")
+dataset = pd.read_csv("D:\Arundev\py\MachineLearningAlgorithms\ClassificationAlgorithms\Social_Network_Ads.csv")
 X = dataset.iloc[:, [2,3]].values
 y = dataset.iloc[:,4].values
 
@@ -63,9 +63,9 @@ X_set, y_set = X_train, y_train
 
 
 #saving model
-file_name = "LogisticRegression.pkl"
-pkl_file = open(file_name, 'wb')
-model = pickle.dump(classifier, pkl_file)
+#file_name = "LogisticRegression.pkl"
+#pkl_file = open(file_name, 'wb')
+#model = pickle.dump(classifier, pkl_file)
 
 
 
