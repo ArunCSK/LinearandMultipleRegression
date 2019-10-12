@@ -24,7 +24,7 @@ sentence = []
 for i in range(len(DataSet)):
     sentence.append((DataSet['Review'][i]))
 
-#print(sentence)
+print(sentence)
 
 corpus = []
 
