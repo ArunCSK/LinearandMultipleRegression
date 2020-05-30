@@ -39,9 +39,9 @@ def our_snake(snake_block, snake_list):
 def message(msg,color):
     mesg = font_style.render(msg, True, color)
     if(msg == "Game Over!!!"):
-        dis.blit(mesg, [dis_width/3, dis_height/3])
+        dis.blit(mesg, [dis_width/3, dis_height/2])
     else:
-        dis.blit(mesg, [dis_width/8, dis_height/3])
+        dis.blit(mesg, [dis_width/12, dis_height/3])
 
 def game_loop():
     game_over = False
@@ -81,7 +81,7 @@ def game_loop():
                         game_loop()
 
         for event in pygame.event.get():
-            print(event)
+            #print(event)
             if  event.type == pygame.QUIT:
                 game_over = True
             if event.type == pygame.KEYDOWN:
