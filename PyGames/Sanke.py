@@ -19,9 +19,6 @@ white = (255, 255, 255)
 black = (0, 0, 0)
 red = (255, 0, 0)
 
-
-
-
 clock = pygame.time.Clock()
 snake_speed=15
 
@@ -59,9 +56,6 @@ def game_loop():
 
     foodx = round(random.randrange(20, 580) / 10.0) * 10.0
     foody = round(random.randrange(50, 480) / 10.0) * 10.0
-
-    
-
 
     while not game_over:
 
