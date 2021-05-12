@@ -1,0 +1,25 @@
+val data = sc.textFile("/home/ubuntu/Desktop/SparkDump/data.txt")
+
+  data.count()
+  data.collect()
+
+  MapReduce using functions
+  val wc = hFile.flatMap(line => line.split(" ")).map(word => (word, 1)).reduceByKey(_ + _)
+  val wc = data.flatMap(line => line.split(" ")).map(word => (word, 1)).reduceByKey(_ + _)
+
+
+  wc.collect()
+  wc.take(10)
+
+
+#Read CSV with header and delimeters
+#Read CSV without header
+val df = spark.read.format("csv").option("delimiter", "|").load("/home/ubuntu/Desktop/SparkDump/data.csv")
+
+#Read CSV with header
+val df = spark.read.format("csv").option("delimiter", "|").option("header","true").load("/home/ubuntu/Desktop/SparkDump/data.csv")
+
+#Apply Transfromation on Dataframe based on columns
+ val df1 = df.select(df.columns.slice(2,12).map(col(_)): _*).toDF()
+ df1.show()
+
